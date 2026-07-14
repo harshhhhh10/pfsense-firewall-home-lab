@@ -1,6 +1,31 @@
-# Enterprise Firewall & Network Security Home Lab using pfSense
+# 🛡️ Enterprise Firewall & Network Security Home Lab using pfSense
 
-> A production-inspired firewall and network security home lab demonstrating firewall administration, routing, NAT, packet analysis, stateful inspection, and troubleshooting using pfSense Community Edition.
+<p align="center">
+
+![Platform](https://img.shields.io/badge/Platform-VirtualBox-blue)
+![Firewall](https://img.shields.io/badge/Firewall-pfSense-orange)
+![Operating System](https://img.shields.io/badge/OS-Ubuntu_Server-E95420)
+![License](https://img.shields.io/badge/License-MIT-green)
+![Status](https://img.shields.io/badge/Project-Completed-success)
+
+</p>
+
+> A production-inspired firewall and network security laboratory built using **pfSense Community Edition** to demonstrate enterprise firewall administration, Network Address Translation (NAT), routing, packet analysis, stateful inspection, and troubleshooting in a virtual environment.
+
+---
+
+## 📖 Table of Contents
+
+- [Project Overview](#-project-overview)
+- [Objectives](#-project-objectives)
+- [Technologies Used](#-technologies-used)
+- [Architecture](#-architecture)
+- [Features Implemented](#-features-implemented)
+- [Documentation](#-documentation)
+- [Project Gallery](#-project-gallery)
+- [Skills Demonstrated](#-skills-demonstrated)
+- [Future Improvements](#-future-improvements)
+- [References](#-references)
 
 ---
 
@@ -45,7 +70,23 @@ Rather than only configuring the firewall, the project focuses on understanding 
 
 ## 🏗 Architecture
 
-> *(Architecture diagram will be added here.)*
+> ## 🏗️ Architecture
+
+> **High-Level Lab Topology**
+
+<p align="center">
+
+**📌 Architecture Diagram Coming Soon**
+
+</p>
+
+The lab consists of:
+
+- VirtualBox NAT Network
+- pfSense Firewall
+- Ubuntu Server
+- Internal LAN (192.168.10.0/24)
+- WAN Network (10.0.2.0/24)
 
 ---
 
@@ -86,32 +127,67 @@ Rather than only configuring the firewall, the project focuses on understanding 
 
 ## 📸 Screenshots
 
-Screenshots and diagrams are available inside the `screenshots/` directory.
+## 📸 Project Gallery
+
+The following screenshots are documented throughout the project:
+
+- pfSense Dashboard
+- WAN & LAN Interface Configuration
+- Firewall Rules
+- Outbound NAT Configuration
+- Packet Capture Analysis
+- Firewall Logs
+- DNS Lookup
+- ARP Table
+- Routing Table
+- State Table
+- Backup & Restore
 
 ---
 
 ## 🧪 Skills Demonstrated
 
-- Firewall Administration
-- Network Security
+### Networking
+
+- IPv4 Addressing
 - Routing
-- NAT
-- Packet Analysis
-- Firewall Troubleshooting
-- Network Diagnostics
-- Linux Networking Fundamentals
+- Default Gateway
+- DNS
+- ARP
+- ICMP
+
+### Firewall Administration
+
+- Stateful Packet Inspection (SPI)
+- Firewall Rule Management
+- NAT Configuration
+- Port Forwarding
+- Logging
+- Diagnostics
+
+### Network Analysis
+
+- Packet Capture
+- Firewall Log Analysis
+- Route Verification
+- State Table Analysis
+- Troubleshooting
 
 ---
 
 ## 🚀 Future Improvements
 
-- Enterprise VLAN Segmentation
-- Active Directory Integration
-- Windows Event Forwarding
-- Sysmon Deployment
-- Wazuh SIEM Integration
-- Detection Engineering
-- Incident Response Scenarios
+This project is the foundation of a larger enterprise cybersecurity home lab.
+
+Planned future projects include:
+
+1. Enterprise VLAN Segmentation
+2. Active Directory Lab
+3. Windows Event Forwarding
+4. Sysmon Deployment
+5. Wazuh SIEM Integration
+6. Detection Engineering
+7. Incident Response & Threat Hunting
 
 ---
 
