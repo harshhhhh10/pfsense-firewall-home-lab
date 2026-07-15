@@ -44,53 +44,6 @@ The firewall acts as the gateway between the trusted internal LAN and the extern
 
 ---
 
-# Virtual Machine Configuration
-
-## pfSense
-
-| Resource | Configuration |
-|----------|---------------|
-| CPUs | 2 |
-| Memory | 2 GB  |
-| Disk | 20 GB  |
-| Network Adapter 1 | NAT |
-| Network Adapter 2 | Internal Network |
-
----
-
-## Ubuntu Server
-
-| Resource | Configuration |
-|----------|---------------|
-| CPUs | 2 |
-| Memory | 2 GB *(adjust to your actual value)* |
-| Disk | 25 GB *(adjust if different)* |
-| Network Adapter | Internal Network |
-
----
-
-
-# Network Adapter Assignment
-
-## pfSense
-
-| Adapter | Connected To | Purpose |
-|----------|--------------|----------|
-| Adapter 1 | NAT | WAN |
-| Adapter 2 | Internal Network | LAN |
-
----
-
-## Ubuntu Server
-
-| Adapter | Connected To |
-|----------|--------------|
-| Adapter 1 | Internal Network |
-
-This configuration ensures that all outbound traffic from Ubuntu is routed through the pfSense firewall before reaching the Internet.
-
----
-
 # Initial Configuration
 
 After installation, the following configuration tasks were completed:
