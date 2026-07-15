@@ -43,18 +43,17 @@ Because of this **first-match behavior**, rule order is critical.
 
 ---
 
-## Implemented LAN Rules
+### Implemented LAN Rules
 
-The following rules were configured on the **LAN interface** (`192.168.10.0/24`):
-
-| # | Rule Name | Action | Protocol | Source | Destination | Port | Purpose |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 1 | Anti-Lockout Rule | `Pass` | TCP | LAN net | This Firewall | 443, 80 | Prevent admin lockout from web interface |
-| 2 | Block ICMP from LAN | `Block` | ICMP | LAN net | Any | Any | Restrict ICMP echo requests from internal hosts |
-| 3 | Block Google DNS Alias | `Block` | TCP/UDP | LAN net | Google_DNS | 53 | Prevent DNS bypass to external resolvers |
-| 4 | Block SSH During Business Hours | `Block` | TCP | LAN net | Any | 22 | Restrict SSH access during working hours (08:00–18:00) |
-| 5 | Allow LAN to Any | `Pass` | Any | LAN net | Any | Any | Permit all outbound traffic from trusted internal hosts |
-| 6 | Default Allow LAN IPv6 | `Pass` | Any | LAN net | Any | Any | Permit IPv6 traffic from internal hosts |
+| Rule Order | Action | Protocol | Source | Destination | Destination Port | Description |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **1** | 🟢 Pass | IPv4 TCP | LAN net | LAN Address | 443 / 80 | pfSense Anti-Lockout Rule |
+| **2** | 🔴 Block | IPv4 ICMP | LAN net | LAN Address | * | Block ICMP from LAN |
+| **3** | 🔴 Block | IPv4 TCP | LAN net | * | 80 (HTTP) | Block HTTP from LAN |
+| **4** | 🔴 Block | IPv4 * | LAN net | `google_DNS` (Alias) | * | Block Google DNS Alias |
+| **5** | 🔴 Block | IPv4 TCP | LAN net | * | 22 (SSH) | Block SSH during Business Hours |
+| **6** | 🟢 Pass | IPv4 * | LAN net | * | * | Default allow LAN to any rule |
+| **7** | 🟢 Pass | IPv6 * | LAN net | * | * | Default allow LAN IPv6 to any rule |
 
 ### Rule-by-Rule Explanation
 
