@@ -212,4 +212,4 @@ This pfSense firewall installation forms the structural core network routing and
 
 **Harsh Soni**  
 [GitHub Profile](https://github.com)  
-*Cybersecurity Engineer | Defensive Security固定 Practitioner | Threat Hunting Enthusiast*
+*Cybersecurity Engineer | Defensive Security Practitioner | Threat Hunting Enthusiast*
