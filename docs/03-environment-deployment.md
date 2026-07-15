@@ -35,6 +35,15 @@ The firewall acts as the gateway between the trusted internal LAN and the extern
 
 ---
 
+## Virtual Machine Specifications
+
+| Node | OS | vCPU | RAM | Virtual Network Adapter(s) |
+| :--- | :--- | :--- | :--- | :--- |
+| **pfSense Firewall** | FreeBSD (2.7.2) | 2 | 2 GB | Adapter 1: NAT (WAN)<br>Adapter 2: Internal Network 'BlueLabNet' (LAN) |
+| **Ubuntu Desktop** | Ubuntu 22.04 LTS | 4 | 4 GB | Adapter 1: Internal Network 'BlueLabNet' |
+
+---
+
 # Virtual Machine Configuration
 
 ## pfSense
@@ -42,8 +51,8 @@ The firewall acts as the gateway between the trusted internal LAN and the extern
 | Resource | Configuration |
 |----------|---------------|
 | CPUs | 2 |
-| Memory | 2 GB *(adjust to your actual value)* |
-| Disk | 20 GB *(adjust if different)* |
+| Memory | 2 GB  |
+| Disk | 20 GB  |
 | Network Adapter 1 | NAT |
 | Network Adapter 2 | Internal Network |
 
@@ -59,6 +68,7 @@ The firewall acts as the gateway between the trusted internal LAN and the extern
 | Network Adapter | Internal Network |
 
 ---
+
 
 # Network Adapter Assignment
 
