@@ -151,4 +151,3 @@ WAN  tcp  10.0.2.15:16432 (192.168.10.100:49254) -> 93.184.216.34:443  ESTABLISH
 - [x] **Gateway Adjacency:** Confirmed stable layer-3 gateway mappings to the upstream provider segment (`10.0.2.2`).
 - [x] **Deterministic Path Selection:** Verified that all traffic targeting external public addresses drops safely down to the catch-all WAN default path.
 - [x] **Dynamic Fallback Readiness:** Validated the active deployment of automated priority assignment mechanisms for handling multi-stack interfaces.
-
