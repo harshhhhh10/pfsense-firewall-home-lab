@@ -74,7 +74,7 @@ Rather than only configuring the firewall, the project focuses on understanding 
 
 <p align="center">
 
-**📌 Architecture Diagram Coming Soon**
+![Network Topology](diagrams/2.png)
 
 </p>
 
@@ -110,16 +110,16 @@ The lab consists of:
 
 | Document | Description |
 |----------|-------------|
-| 01 | Project Overview |
-| 02 | Network Topology |
-| 03 | Installation |
-| 04 | Network Configuration |
-| 05 | Firewall Rules |
-| 06 | Network Address Translation |
-| 07 | Packet Analysis |
-| 08 | Network Diagnostics |
-| 09 | Troubleshooting |
-| 10 | Lessons Learned |
+| 01 | Project Overview | [View](docs/01-project-overview.md) | 
+| 02 | Network Topology | [View](docs/02-network-topology.md) |
+| 03 | Installation | [View](docs/03-environment-deployment.md) |
+| 04 | Network Configuration | [View](docs/04-network-configuration.md) |
+| 05 | Firewall Rules | [View](docs/05-firewall-rules.md) |
+| 06 | Network Address Translation | [View](docs/06-nat.md) |
+| 07 | Packet Analysis | [View](docs/07-packet-analysis.md) |
+| 08 | Network Diagnostics | [View](docs/08-network-diagnostics.md) |
+| 09 | Troubleshooting | [View](docs/09-troubleshooting.md) |
+| 10 | Lessons Learned | [View](docs/10-lessons-learned.md) |
 
 ---
 
