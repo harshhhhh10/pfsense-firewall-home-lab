@@ -36,7 +36,7 @@ The lab utilizes a **Hybrid Outbound NAT** layout consisting of five precise cus
 
 | # | Interface | Source | Destination | NAT Address | Static Port | Description |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| 1 | WAN | `Ubuntu_Server` (Alias) | `*` | WAN address | :x: | Manual NAT using Alias |
+| 1 | WAN | `Ubuntu_Desktop` (Alias) | `*` | WAN address | :x: | Manual NAT using Alias |
 | 2 | WAN | `192.168.10.100/32` | `*` | WAN address | :x: | Manual NAT for Ubuntu Only |
 | 3 | WAN | `LAN subnets` | `*` | NO NAT | :x: | Outbound NAT Exemption Demo |
 | 4 | WAN | `LAN subnets` | `*` | WAN address | :white_check_mark: | Static Port Demo |
@@ -63,7 +63,7 @@ As verified in the `Firewall / NAT / Port Forward` system panel, an inbound rule
 * **Validation Methodology:** This rule was verified by utilizing a secondary machine sitting outside the WAN network interface boundary. Running a command like `curl http://10.0.2.15:8080` successfully routed traffic through the WAN port, dropped down to the internal destination host, and pulled the server default landing index page.
 
 > [!WARNING]
-> **Security Implications:** Exposing internal infrastructure services directly via Port Forwarding opens vulnerabilities. Unpatched service exploits on the Ubuntu Server can yield full system access to bad actors. 
+> **Security Implications:** Exposing internal infrastructure services directly via Port Forwarding opens vulnerabilities. Unpatched service exploits on the Ubuntu Desktop can yield full system access to bad actors. 
 > To minimize risk, secure configurations should use context-aware firewall rules limiting source traffic to specific authorized external IPs, or enforce connection exclusively via an encrypted VPN tunnel.
 
 ---
@@ -98,7 +98,7 @@ Once evaluated against the Hybrid Outbound translation rule, the outbound tracki
 ```mermaid
 sequenceDiagram
     autonumber
-    participant Ubuntu as Ubuntu Server (192.168.10.100)
+    participant Ubuntu as Ubuntu Desktop (192.168.10.100)
     participant LAN as pfSense LAN Interface
     participant NAT as NAT Engine (Hybrid/Port Forward)
     participant WAN as pfSense WAN Interface
