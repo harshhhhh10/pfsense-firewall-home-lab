@@ -6,9 +6,9 @@
   <img src="https://img.shields.io/badge/OS-Ubuntu_Server-E95420" alt="OS">
   <img src="https://img.shields.io/badge/License-MIT-green" alt="License">
   <img src="https://img.shields.io/badge/Project-Completed-success" alt="Status">
-</p>
+</p>>
 
-> A production-inspired firewall and network security laboratory built using **pfSense Community Edition** to demonstrate enterprise firewall administration, Network Address Translation (NAT), routing, packet analysis, stateful inspection, and troubleshooting in a virtual environment.
+> A production-inspired firewall and network security laboratory built using **pfSense Community Edition (v2.7.2-RELEASE)** to demonstrate enterprise firewall administration, Network Address Translation (NAT), routing, defensive packet analysis, boundary vulnerability testing, and stateful inspection.
 
 ---
 
@@ -16,11 +16,13 @@
 
 * [Project Overview](#-project-overview)
 * [Project Objectives](#-project-objectives)
-* [Technologies Used](#-technologies)
+* [Environment Context](#-environment-context)
 * [Architecture](#-architecture)
+* [Security Mindset: Boundary Testing & Validation](#-security-mindset-boundary-testing--validation)
 * [Features Implemented](#-features-implemented)
-* [Documentation](#-documentation)
-* [Project Gallery](#-project-gallery)
+* [Documentation Matrix](#-documentation-matrix)
+* [Production Strategy vs. Lab Implementations](#-production-strategy-vs-lab-implementations)
+* [Reproduction & Quick Start Guide](#-reproduction--quick-start-guide)
 * [Skills Demonstrated](#-skills-demonstrated)
 * [Future Improvements](#-future-improvements)
 * [References](#-references)
@@ -30,36 +32,32 @@
 
 ## 📌 Project Overview
 
-This project demonstrates the deployment, configuration, verification, and troubleshooting of a pfSense firewall within a virtualized home lab environment. 
+This project demonstrates the deployment, adversarial configuration validation, and troubleshooting of a pfSense firewall within a virtualized home lab sandbox. 
 
-The lab was built to simulate fundamental enterprise networking concepts including firewall policy management, dynamic routing, Network Address Translation (NAT), packet inspection, and stateful tracking pipelines. 
+The lab simulates core enterprise networking concepts including security zone segregation, strict egress filtering, Hybrid Network Address Translation (NAT), and stateful session tracking. 
 
-Rather than simply applying static configuration toggles, this project focuses heavily on empirical verification—analyzing exactly how packet frames change state and transform as they traverse distinct security layers.
+Rather than simply applying static configuration changes, this project applies a defensive engineering approach—actively testing security boundaries from external zones to verify that the firewall behaves as intended under live adversarial conditions.
 
 ---
 
 ## 🎯 Project Objectives
 
 * Deploy pfSense in an isolated, multi-interface hypervisor environment.
-* Configure functional WAN, LAN, and administrative interface endpoints.
-* Manage dynamic endpoint initialization via centralized DHCP and secure DNS Unbound engines.
-* Code and enforce strict stateful firewall rules matching least-privilege standards.
-* Implement custom Hybrid Outbound NAT and Port Forwarding (Destination NAT) rules.
-* Capture and analyze raw network traffic frames across interface boundaries.
-* Map and validate localized address resolution behaviors using diagnostic utilities.
-* Document systemic baseline performance and incident troubleshooting frameworks.
+* Implement a **Default Deny** security postures matching least-privilege models.
+* Manage client provisioning via centralized DHCP and secure DNS Unbound engines.
+* Code and enforce strict stateful firewall policies and time-based access constraints.
+* Validate inbound boundary defenses by probing the perimeter from external networks.
+* Document systemic baseline performance, packet alterations, and troubleshooting frameworks.
 
 ---
 
-## 🛠 Technologies
+## ⚙️ Environment Context
 
-| Core Component | Implementation Role / Purpose |
-| :--- | :--- |
-| **pfSense CE** | Edge Security Gateway, Router, and Packet Filtering Engine |
-| **Oracle VirtualBox** | Type-2 Hypervisor Platform for isolated virtualization |
-| **Ubuntu Desktop** | Internal Endpoint Client node for system validation testing |
-| **Python HTTP Server** | Local daemon testing asset to verify inbound redirection loops |
-| **ICMP / UDP / TCP** | Structural protocol tracking targets used across packet analysis phases |
+To ensure testing consistency and audit accuracy, the laboratory was built and verified using the following exact software baselines:
+* **Firewall Engine:** pfSense Community Edition `2.7.2-RELEASE` (Built: December 2023)
+* **Hypervisor Platform:** Oracle VirtualBox Virtualization Suite
+* **Internal Endpoint Client:** Ubuntu Desktop LTS
+* **External Security Probing Engine:** Kali Linux Offensive Suite
 
 ---
 
@@ -69,26 +67,44 @@ Rather than simply applying static configuration toggles, this project focuses h
   <img src="diagrams/pfsense-virtualbox-lab-topology.png" alt="Network Topology">
 </p>
 
-The architecture creates an enterprise-styled DMZ demarcation pattern inside the host sandbox system:
-* **VirtualBox NAT Network Backplane:** Maps out the simulated public provider perimeter.
-* **The pfSense Security Node:** Bridges unauthenticated assets to internal infrastructure zones.
-* **WAN Segment (`10.0.2.0/24`):** External entry domain relying on default gateway routing tracking.
-* **LAN Subnet (`192.168.10.0/24`):** High-trust domain hosting primary system workloads.
+The architecture mimics an enterprise edge deployment model:
+* **WAN Segment (`10.0.2.0/24`):** External untrusted network connected to the upstream hypervisor NAT gateway.
+* **LAN Subnet (`192.168.10.0/24`):** High-trust, segmented internal asset domain.
+
+---
+
+## ⚔️ Security Mindset: Boundary Testing & Validation
+
+To shift this project from an administrative configuration showcase into an empirical security assessment, the network boundaries were tested from an adversarial perspective using an external testing node.
+
+[ Kali Linux Node ] ──( Unsolicited WAN Scan )──► ╳ [ pfSense WAN Interface ] ──► ( DROPPED BY DEFAULT DENY )
+
+### 1. Inbound External Reconnaissance Probing
+An aggressive, unsolicited network port scan was executed from an external testing machine sitting directly on the untrusted WAN backplane segment targeting the public IP of the pfSense interface:
+```bash
+# Execute a comprehensive TCP Syn stealth scan against the firewall WAN edge
+nmap -sS -Pn -p 1-1024 10.0.2.15
+```
+
+### 2. Observable Security Results
+* **Firewall Action:** Every incoming probe packet targeting ports outside of explicitly defined port forwards (such as Port 8080) was silently dropped.
+* **Scan Feedback:** The external reconnaissance tool marked all scanned ports as `filtered` or `closed`.
+* **Defensive Proof:** This directly validates the **Default Deny Security Model**. Unsolicited incoming connections from external spaces cannot discover internal topology maps or access internal services without explicit destination mapping authorization.
 
 ---
 
 ## ✨ Features Implemented
 
-* **Interface Provisioning:** Hardened driver binding and layer-3 subnet segmentation configurations.
-* **Stateful Access Control Policies:** Granular time-based restrictions and strict alias-driven block rules.
-* **Dynamic Scoping Daemons:** Active local DHCP allocation pools paired with responsive DNS record tracking.
-* **Hybrid Outbound NAT Mappings:** Controlled source header translation schema for outbound privacy.
-* **Inbound Destination Port Forwarding:** Encapsulated mapping of external port requests down to target hosts.
-* **Concurrent Interface Wire Diagnostics:** Deep frame verification loops capturing before-and-after NAT snapshots.
+* **Interface Provisioning:** Explicit network boundary driver bindings and layer-3 segmentation.
+* **Stateful Access Control Policies:** Granular business-hours restrictions and alias-driven blocks.
+* **Dynamic Scoping Daemons:** Active DHCP distribution pools paired with responsive DNS record caching.
+* **Hybrid Outbound NAT Mappings:** Controlled source header translation schema for outbound asset privacy.
+* **Inbound Destination Port Forwarding:** Encapsulated mapping of external requests down to targeted apps.
+* **Concurrent Interface Wire Diagnostics:** Deep frame verification loops capturing pre-and-post NAT snapshots.
 
 ---
 
-## 📚 Documentation
+## 📚 Documentation Matrix
 
 | Module ID | Documentation Title | Repository Navigation |
 | :--- | :--- | :--- |
@@ -105,15 +121,49 @@ The architecture creates an enterprise-styled DMZ demarcation pattern inside the
 
 ---
 
-## 📸 Project Gallery
+## 🏢 Production Strategy vs. Lab Implementations
 
-The active artifacts verifying this topology are systematically cross-referenced within the sub-documentation files:
-* Core pfSense Resource and Monitoring System Dashboards
-* WAN Interconnect and LAN Gateway Port Maps
-* Layer 4 Stateful Rules Policy Inventories
-* Hybrid NAT Mapping Blocks & Port Redirection Tables
-* Dual-Interface Packet Capture Verification Streams
-* Filter Logs showing dropped ICMP, TCP, and UDP sessions
+Operating a firewall safely within a live corporate production ecosystem requires hardening decisions that go beyond the basic requirements of an isolated learning lab. 
+
+The matrix below highlights the architectural changes required to transform this functional proof-of-concept into a production-grade deployment:
+
+| Operational Control | Home Lab Sandbox Implementation | Production Enterprise Standard |
+| :--- | :--- | :--- |
+| **Administrative Access** | Access allowed over standard HTTP channels during initial provisioning cycles. | **Enforce HTTPS Only.** Force strict TLS 1.3 encryption on the WebGUI and restrict interface listening bindings exclusively to dedicated Out-of-Band (OOB) Management VLANs. |
+| **System Credentials** | Standard factory passwords maintained for speed across simple test cycles. | **Rotate Defaults Instantly.** Enforce high-entropy, unique credential values backed by centralized Multi-Factor Authentication (MFA / RADIUS). |
+| **Console Access Management** | Password-based interaction allowed over clear SSH terminal sessions. | **Hardened SSH.** Enforce public key-based cryptographic authentication exclusively; disable root password access entirely. |
+| **Logging & Telemetry** | Local database storage mapping directly to file traces (`/tmp/*.pcap`). | **Centralized Logging.** Stream system logs using secure syslog forwarders to an enterprise SIEM engine for long-term retention and alert correlation. |
+| **Business Continuity** | Single-node deployment instance on a lone hypervisor system. | **High Availability (HA).** Pair multiple physical appliances via Common Address Redundancy Protocol (**CARP**) to support state-synchronized automatic failover. |
+| **Configuration Backups** | Manual snapshot creation triggered from the dashboard layout menu. | **Automated Backups.** Schedule regular encrypted backup tasks to an off-site, access-controlled vault repository. |
+
+---
+
+## 🛠 Reproduction & Quick Start Guide
+
+Follow these sequential steps to replicate this exact firewall and client validation environment in your virtualization setup:
+
+### 1. Provision the Network Layout in VirtualBox
+* Navigate to VirtualBox Preferences and create a new **NAT Network** named `Lab_WAN` configured with the subnet bounds `10.0.2.0/24`.
+* Create a dedicated host-only or isolated internal backplane layout named `Lab_LAN`.
+
+### 2. Configure the pfSense Firewall Virtual Machine
+* Create a new VM profile allocating **2 vCPUs, 2GB RAM, and a 20GB Virtual Disk**.
+* Mount the downloaded `pfSense-CE-2.7.2-RELEASE-amd64.iso` image to the virtual optical drive.
+* Map **Network Adapter 1** to your `Lab_WAN` NAT Network interface.
+* Map **Network Adapter 2** to your isolated `Lab_LAN` Internal Network.
+
+### 3. Initialize the Gateway Operating System
+* Power on the VM, follow the interactive setup scripts, and install the base OS to the virtual drive.
+* Upon reboot, complete interface tracking assignments via the console: allocate interface `em0` as **WAN** and interface `em1` as **LAN**.
+* Set the LAN interface IPv4 properties statically: Assign address `192.168.10.1/24` and enable the local DHCP server pool distribution daemon.
+
+### 4. Provision the Ubuntu Endpoint Client
+* Create your Linux workstation client VM, setting its single network adapter assignment explicitly to the same `Lab_LAN` Internal Network backplane.
+* Boot the OS. The interface will automatically pull an address lease (e.g., `192.168.10.100`) from the pfSense DHCP server.
+* Open a terminal window on your Ubuntu workspace node and verify your stateful connectivity path by running:
+  ```bash
+  ping -c 4 8.8.8.8
+  ```
 
 ---
 
@@ -122,7 +172,7 @@ The active artifacts verifying this topology are systematically cross-referenced
 ### Core Infrastructure & Routing
 * Structured subnet masking planning using modern CIDR formatting guidelines.
 * Stateful boundary routing across multi-zone routing engines.
-* Centralized infrastructure configuration optimization spanning DHCP and Unbound caching architectures.
+* Centralized configuration mapping spanning DHCP and Unbound caching architectures.
 
 ### Network Defense Engineering
 * Application of Least Privilege principles across layer-3 access control lists.
@@ -153,7 +203,6 @@ This pfSense firewall installation forms the structural core network routing and
 ## 📖 References
 
 * **Netgate pfSense Technical Documentation:** [Core Reference Guide](https://netgate.com)
-* **RFC 791:** Internet Protocol (IPv4 Core Routing Standards)
 * **RFC 1918:** Address Allocation for Private Internets (Subnet Boundaries)
 * **RFC 4787:** Network Address Translation (NAT) Behavioral Requirements for Unicast UDP
 
@@ -163,4 +212,4 @@ This pfSense firewall installation forms the structural core network routing and
 
 **Harsh Soni**  
 [GitHub Profile](https://github.com)  
-*Cybersecurity Engineer | Defensive Security Practitioner | Threat Hunting Enthusiast*
+*Cybersecurity Engineer | Defensive Security固定 Practitioner | Threat Hunting Enthusiast*
