@@ -151,10 +151,10 @@ The tracking metrics are mapped out in the following interface capture segments:
 
 | Targeted Phase Log | Verification Artifact Description | Document File Path Reference |
 | :--- | :--- | :--- |
-| **Terminal Test Execution** | Raw Ubuntu bash logs showing successful icmp metrics | `05-captures/01-ubuntu-ping.png` |
-| **LAN Raw Wire State** | Capture dump verifying untranslated local network headers | `05-captures/02-lan-raw-trace.png` |
-| **WAN Translated State** | Active pfSense `.pcap` extract showing functional SNAT | `05-captures/03-wan-nat-trace.png` |
-| **DNS UDP Port 53 Log** | Diagnostic verification of target Unbound name queries | `05-captures/04-dns-udp-query.png` |
+| **Terminal Test Execution** | Raw Ubuntu bash logs showing successful icmp metrics | `screenshots/05-packet-capture/01-lan-icmp-before-nat.png` |
+| **LAN Raw Wire State** | Capture dump verifying untranslated local network headers | `screenshots/05-packet-capture/01-lan-icmp-before-nat.png` |
+| **WAN Translated State** | Active pfSense `.pcap` extract showing functional SNAT | `screenshots/05-packet-capture/02-wan-icmp-after-nat.png` |
+| **DNS UDP Port 53 Log** | Diagnostic verification of target Unbound name queries | `screenshots/02-services/02-dns-resolver.png` |
 
 ---
 
