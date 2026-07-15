@@ -18,7 +18,7 @@
 
 - [Project Overview](#-project-overview)
 - [Objectives](#-project-objectives)
-- [Technologies Used](#-technologies-used)
+- [Technologies Used](#-technologies)
 - [Architecture](#-architecture)
 - [Features Implemented](#-features-implemented)
 - [Documentation](#-documentation)
