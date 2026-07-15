@@ -73,18 +73,57 @@ This removes the need for manual network configuration on client systems.
 
 # DNS Configuration
 
-The pfSense firewall was configured to act as a DNS forwarder.
+The pfSense firewall was configured to act as a **DNS Resolver** using **Unbound** (the default DNS service in pfSense CE 2.7.2).
 
-Internal clients send DNS requests to the firewall.
+### How It Works
 
-The firewall then forwards those requests to upstream DNS servers.
+1. Internal clients send DNS requests to the firewall at `192.168.10.1`
+2. The firewall resolves queries by contacting upstream DNS servers directly
+3. Responses are cached locally to speed up future lookups for the same hostnames
 
-This provides:
+### Benefits
 
-- Centralized DNS management
-- Faster repeat lookups through caching (when enabled)
-- Simplified client configuration
+| Benefit | Description |
+|---------|-------------|
+| Centralized DNS Management | All clients point to a single DNS IP (`192.168.10.1`) |
+| Faster Repeat Lookups | Local caching reduces query time for frequently accessed hostnames |
+| Simplified Client Config | Only the firewall's LAN IP is needed as the DNS server |
+| Improved Privacy | Internal queries are aggregated through the firewall rather than exposed individually |
 
+### Configuration Details
+
+| Setting | Value |
+|---------|-------|
+| Service | Unbound DNS Resolver |
+| Listening Interface | LAN (`192.168.10.1`) |
+| Upstream DNS Servers | `1.1.1.1` (Cloudflare), `8.8.8.8` (Google) |
+| DNSSEC Validation | Enabled (default) |
+| DNS Query Forwarding | Enabled (forward mode) |
+
+### Why DNS Resolver Instead of Forwarder?
+
+pfSense offers two DNS services:
+
+| Service | Description | Use Case |
+|---------|-------------|----------|
+| **DNS Resolver (Unbound)** | Resolves queries recursively by querying root servers and following referrals. Can also forward to specific upstream servers. | Preferred for caching, DNSSEC validation, and recursive resolution |
+| **DNS Forwarder (dnsmasq)** | Forwards all queries directly to upstream DNS servers without recursive resolution. | Lightweight, suitable for simple forwarding only |
+
+This project used the **DNS Resolver in forwarding mode**, which combines the caching and validation benefits of Unbound with the simplicity of forwarding to trusted upstream servers.
+
+### Verification
+
+DNS functionality was verified using the following methods:
+
+- **DNS Lookup tool** in pfSense Diagnostics (`Diagnostics &gt; DNS Lookup`)
+- **`ping google.com`** from Ubuntu Desktop
+- **`nslookup google.com`** from Ubuntu Desktop
+
+Successful resolution confirmed that:
+
+- [x] The firewall was responding to DNS queries on the LAN interface
+- [x] Upstream DNS servers were reachable and responding
+- [x] Hostname-to-IP translation was functioning correctly
 ---
 
 # Default Gateway
