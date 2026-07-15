@@ -6,9 +6,9 @@
   <img src="https://img.shields.io/badge/OS-Ubuntu_Server-E95420" alt="OS">
   <img src="https://img.shields.io/badge/License-MIT-green" alt="License">
   <img src="https://img.shields.io/badge/Project-Completed-success" alt="Status">
-</p>>
+</p>
 
- A production-inspired firewall and network security laboratory built using **pfSense Community Edition (v2.7.2-RELEASE)** to demonstrate enterprise firewall administration, Network Address Translation (NAT), routing, defensive packet analysis, boundary vulnerability testing, and stateful inspection.
+> A production-inspired firewall and network security laboratory built using **pfSense Community Edition (v2.7.2-RELEASE)** to demonstrate enterprise firewall administration, Network Address Translation (NAT), routing, defensive packet analysis, boundary vulnerability testing, and stateful inspection.
 
 ---
 
