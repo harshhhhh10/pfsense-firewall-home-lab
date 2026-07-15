@@ -70,9 +70,7 @@ Rather than only configuring the firewall, the project focuses on understanding 
 
 ## 🏗 Architecture
 
-> ## 🏗️ Architecture
 
-> **High-Level Lab Topology**
 
 <p align="center">
 
