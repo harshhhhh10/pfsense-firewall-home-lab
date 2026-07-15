@@ -74,7 +74,7 @@ Rather than only configuring the firewall, the project focuses on understanding 
 
 <p align="center">
 
-![Network Topology](diagrams/2.png)
+![Network Topology](diagrams/pfsense-virtualbox-lab-topology.png)
 
 </p>
 
