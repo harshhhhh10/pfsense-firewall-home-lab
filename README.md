@@ -60,7 +60,7 @@ Rather than only configuring the firewall, the project focuses on understanding 
 |------------|---------|
 | pfSense CE | Firewall & Router |
 | Oracle VirtualBox | Virtualization Platform |
-| Ubuntu Server | Internal Client |
+| Ubuntu Desktop | Internal Client |
 | Python HTTP Server | Web Server Testing |
 | ICMP | Connectivity Testing |
 | DNS | Name Resolution |
@@ -82,7 +82,7 @@ The lab consists of:
 
 - VirtualBox NAT Network
 - pfSense Firewall
-- Ubuntu Server
+- Ubuntu Desktop
 - Internal LAN (192.168.10.0/24)
 - WAN Network (10.0.2.0/24)
 
