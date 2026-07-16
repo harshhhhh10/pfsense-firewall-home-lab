@@ -32,11 +32,9 @@
 
 ## 📌 Project Overview
 
-This project demonstrates the deployment, adversarial configuration validation, and troubleshooting of a pfSense firewall within a virtualized home lab sandbox. 
+This is a virtualized home lab where I deployed pfSense as a firewall between a simulated WAN and LAN, configured NAT and DHCP, wrote firewall rules, and then tested those rules by generating real traffic and capturing it to confirm the firewall was actually doing what I configured it to do — not just assuming the config was correct.
 
-The lab simulates core enterprise networking concepts including security zone segregation, strict egress filtering, Hybrid Network Address Translation (NAT), and stateful session tracking. 
-
-Rather than simply applying static configuration changes, this project applies a defensive engineering approach—actively testing security boundaries from external zones to verify that the firewall behaves as intended under live adversarial conditions.
+The lab covers network segmentation, NAT translation, DHCP/DNS, and packet-level verification. Where possible, I've included the actual packet captures and rule states as evidence rather than just describing the setup.
 
 ---
 
@@ -75,7 +73,11 @@ The architecture mimics an enterprise edge deployment model:
 
 ## ⚔️ Security Mindset: Boundary Testing & Validation
 
-To shift this project from an administrative configuration showcase into an empirical security assessment, the network boundaries were tested from an adversarial perspective using an external testing node.
+Configuring firewall rules is easy to get wrong silently — a rule can look correct and still not do what you expect. To catch that, I tested the rules instead of just trusting them.
+
+NAT verification: I ran ping -c 4 8.8.8.8 from the LAN client and captured traffic on both sides of the firewall. The LAN-side capture shows the client's real internal IP (192.168.10.100); the WAN-side capture shows the same traffic translated to the firewall's external address (10.0.2.15). This confirms NAT is actually rewriting source addresses as configured — see screenshots/05-packet-capture/.
+
+Rule enforcement (in progress): I've configured explicit deny rules — blocking ICMP, HTTP, and SSH-during-business-hours from LAN — but haven't yet captured evidence of these rules actively blocking traffic (current state counters show 0 hits, meaning they haven't been triggered by real traffic yet). Next step: generate traffic against each block rule and capture the resulting drop/log entry, the same way I verified NAT.
 
 [ Kali Linux Node ] ──( Unsolicited WAN Scan )──► ╳ [ pfSense WAN Interface ] ──► ( DROPPED BY DEFAULT DENY )
 
