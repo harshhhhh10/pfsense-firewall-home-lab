@@ -75,9 +75,10 @@ The architecture mimics an enterprise edge deployment model:
 
 Configuring firewall rules is easy to get wrong silently — a rule can look correct and still not do what you expect. To catch that, I tested the rules instead of just trusting them.
 
-NAT verification: I ran ping -c 4 8.8.8.8 from the LAN client and captured traffic on both sides of the firewall. The LAN-side capture shows the client's real internal IP (192.168.10.100); the WAN-side capture shows the same traffic translated to the firewall's external address (10.0.2.15). This confirms NAT is actually rewriting source addresses as configured — see screenshots/05-packet-capture/.
+NAT verification: I ran ping -c 4 8.8.8.8 from the LAN client and captured traffic on both sides of the firewall. The LAN-side capture shows the client's real internal IP (192.168.10.100); the WAN-side capture shows the same traffic translated to the firewall's external address (10.0.2.15). This confirms NAT is actually rewriting source addresses as configured — ![LAN-side capture before NAT](screenshots/05-packet-capture/01-lan-icmp-before-nat.png)
+![WAN-side capture after NAT](screenshots/05-packet-capture/02-wan-icmp-after-nat.png)
 
-Rule enforcement (in progress): I've configured explicit deny rules — blocking ICMP, HTTP, and SSH-during-business-hours from LAN — but haven't yet captured evidence of these rules actively blocking traffic (current state counters show 0 hits, meaning they haven't been triggered by real traffic yet). Next step: generate traffic against each block rule and capture the resulting drop/log entry, the same way I verified NAT.
+Rule enforcement verification: After confirming the "Block ICMP from LAN" rule was in place, I tested it by pinging 8.8.8.8 from the LAN client (192.168.10.100) — 10 packets sent, 0 received, 100% loss. The pfSense firewall log for the same window shows matching blocked entries for the identical source/destination/protocol. This confirms the rule is actively enforced, not just configured — ![Firewall log showing blocked ICMP after rule enforcement](screenshots/03-firewall/03-icmp-block-enforced.png)
 
 [ Kali Linux Node ] ──( Unsolicited WAN Scan )──► ╳ [ pfSense WAN Interface ] ──► ( DROPPED BY DEFAULT DENY )
 
