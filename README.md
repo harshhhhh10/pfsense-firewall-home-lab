@@ -3,7 +3,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/Platform-VirtualBox-blue" alt="Platform">
   <img src="https://img.shields.io/badge/Firewall-pfSense-orange" alt="Firewall">
-  <img src="https://img.shields.io/badge/OS-Ubuntu_Server-E95420" alt="OS">
+  <img src="https://img.shields.io/badge/OS-Ubuntu_Desktop-E95420" alt="OS">
   <img src="https://img.shields.io/badge/License-MIT-green" alt="License">
   <img src="https://img.shields.io/badge/Project-Completed-success" alt="Status">
 </p>
